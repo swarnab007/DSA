@@ -46,4 +46,6 @@ public class MultiDimen {
             System.out.println(Arrays.toString(a));
         }
     }
+
+
 }
