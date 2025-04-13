@@ -61,6 +61,20 @@ public class LL {
         size++;
     }
 
+    // Recursive insertion
+    public void insertRec(int val, int index) {
+        head = insertRec(val, index, head);
+    }
+    private Node insertRec(int val, int index, Node node) {
+        if(index == 0) {
+            Node newNode = new Node(val, node.next);
+            size++;
+            return newNode;
+        }
+        node.next = insertRec(val, index-1, node.next);
+        return node;
+    }
+
     // Deletion At First
     public int deleteFirst() {
         if(head == null) {
@@ -138,6 +152,25 @@ public class LL {
         System.out.println();
     }
 
+    // https://leetcode.com/problems/remove-duplicates-from-sorted-list/submissions/1560118674/
+    // Sorted Linked List -> Remove the Duplicates
+    public void removeDuplicates() {
+        if(head == null)
+            return;
+
+        Node curr = head.next;
+        Node prev = head;
+        while(curr != null) {
+            if(prev.value == curr.value) {
+                prev.next = curr.next;
+                curr = curr.next;
+            } else {
+                prev = curr;
+                curr = curr.next;
+            }
+        }
+    }
+
     // Node class
     private class Node {
         private int value;
@@ -151,6 +184,65 @@ public class LL {
             this.value = value;
             this.next = next;
         }
+    }
+
+
+    // Merge two Sorted Lists
+    // https://leetcode.com/problems/merge-two-sorted-lists/
+    public static LL merge(LL first, LL second) {
+        Node head1 = first.head;
+        Node head2 = second.head;
+
+        LL ans = new LL();
+
+        while(head1 != null && head2 != null) {
+            if(head1.value < head2.value) {
+                ans.insertLast(head1.value);
+                head1 = head1.next;
+            } else {
+                ans.insertLast(head2.value);
+                head2 = head2.next;
+            }
+        }
+
+        while(head1 != null) {
+            ans.insertLast(head1.value);
+            head1 = head1.next;
+        }
+
+        while(head2 != null) {
+            ans.insertLast(head2.value);
+            head2 = head2.next;
+        }
+
+        return ans;
+    }
+
+    // https://leetcode.com/problems/happy-number/
+    // Happy Number
+    public static boolean isHappy(int n) {
+        int slow = n;
+        int fast = n;
+
+        do {
+            slow = findSqaureSum(slow);
+            fast = findSqaureSum(findSqaureSum(fast));
+        } while (slow != fast);
+        if(slow == 1)
+            return true;
+        else
+            return false;
+    }
+
+    public static int findSqaureSum(int num) {
+        int n = num;
+        int sum = 0;
+        while(n != 0) {
+            int digit = n % 10;
+            sum += (int) Math.pow(digit, 2);
+            n = n / 10;
+        }
+        return sum;
     }
 
 }
