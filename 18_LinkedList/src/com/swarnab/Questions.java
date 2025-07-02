@@ -90,7 +90,28 @@ public class Questions {
         return mergeTwoLists(left, right);
     }
 
-    //
+    // Reorder List
+    // https://leetcode.com/problems/reorder-list/description/
+    public void reorderList(ListNode head) {
+        if(head == null || head.next == null) {
+            return;
+        }
+        ListNode mid = middleNode(head);
+        ListNode s = reverse(mid);
+        ListNode f = head;
+
+        while(f != null && s != null) {
+            ListNode temp = f.next;
+            f.next = s;
+            f = temp;
+
+            temp = s.next;
+            s.next = f;
+            s = temp;
+        }
+
+        if(f != null) f.next = null;
+    }
 
     class ListNode {
         int val;
